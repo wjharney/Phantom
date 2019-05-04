@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>The Phantom</title>
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="stylesheet" href="style/phantom.css">
+  </head>
+  <body>
+    <h1>
+      <span id="prevWeek" class="button hidden">«</span>
+      <span id="prev" class="button">&lt;</span>
+      <input type="number" id="year" step="1">
+      <span>–</span>
+      <input type="number" id="month" min="1" max="12" step="1">
+      <span>–</span>
+      <input type="number" id="date" min="1" max="31" step="1">
+      <span id="next" class="button">&gt;</span>
+      <span id="nextWeek" class="button hidden">»</span>
+    </h1>
+    <img id="comic">
+    <script src="script/moment.min.js"></script>
+    <script src="script/phantom.js"></script>
+  </body>
+</html>

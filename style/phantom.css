@@ -1,0 +1,41 @@
+body {
+  -moz-user-select: none;
+  user-select: none;
+}
+
+h1 {
+  align-items: center;
+  border-bottom: 2px ridge gray;
+  display: flex;
+  justify-content: center;
+}
+
+span {
+  font-size: 1.5em;
+  margin: 0 0.5ex;
+}
+
+input {
+  border: none;
+  font-size: 2em;
+  text-align: center;
+  width: 1.5em;
+  background: #f5f5f5;
+}
+
+#year {
+  width: 3em;
+}
+
+#comic {
+  background: url('../img/spinner.gif') top no-repeat;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.button:hover, input:focus {
+  color: #777;
+}
