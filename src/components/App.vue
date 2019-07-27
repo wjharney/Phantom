@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import PhantomComic from './components/Comic'
-import PhantomControls from './components/Controls'
+import PhantomComic from './Comic'
+import PhantomControls from './Controls'
 export default {
   name: 'App',
   components: {
