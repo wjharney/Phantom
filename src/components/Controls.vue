@@ -16,14 +16,14 @@
 import { differenceInWeeks, getYear, isSameDay } from 'date-fns'
 import { mapState } from 'vuex'
 const makeMethod = val => function () {
-  return this.$store.commit('increment', val)
+  return this.$store.dispatch('increment', val)
 }
 const makeComputed = (prop, displayOffset = 0) => ({
   get () {
     return this.$store.getters[prop] + displayOffset
   },
   set (val) {
-    return this.$store.commit(prop, val - displayOffset)
+    return this.$store.dispatch(prop, val - displayOffset)
   }
 })
 export default {
