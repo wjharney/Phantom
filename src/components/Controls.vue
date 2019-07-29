@@ -13,30 +13,42 @@
 </template>
 
 <script>
-import { differenceInWeeks, getYear, isSameDay } from 'date-fns'
+import {
+  getYear, getMonth, getDate, setYear, setMonth, setDate, isSameDay, isBefore,
+  addDays, differenceInWeeks
+} from 'date-fns'
 import { mapState } from 'vuex'
+const UPDATE = 'updateDisplay'
 const makeMethod = val => function () {
-  return this.$store.dispatch('increment', val)
+  const { today, displayDate } = this.$store.state
+  const changed = addDays(displayDate, val)
+  if (isBefore(changed, today)) {
+    this.$store.dispatch(UPDATE, changed)
+  }
 }
-const makeComputed = (prop, displayOffset = 0) => ({
-  get () {
-    return this.$store.getters[prop] + displayOffset
+const makeComputed = (getter, setter, displayOffset = 0) => ({
+  get (...args) {
+    return getter(this.$store.state.displayDate) + displayOffset
   },
-  set (val) {
-    return this.$store.dispatch(prop, val - displayOffset)
+  set (val, ...args) {
+    const { displayDate } = this.$store.state
+    const changed = setter(displayDate, val - displayOffset)
+    if (!isSameDay(changed, displayDate)) {
+      this.$store.dispatch(UPDATE, changed)
+    }
   }
 })
 export default {
   name: 'PhantomControls',
   computed: {
+    year: makeComputed(getYear, setYear),
+    month: makeComputed(getMonth, setMonth, 1),
+    date: makeComputed(getDate, setDate),
     ...mapState({
       isToday: state => isSameDay(state.today, state.displayDate),
       isThisWeek: state => !differenceInWeeks(state.today, state.displayDate),
       maxYear: state => getYear(state.today)
-    }),
-    year: makeComputed('year'),
-    month: makeComputed('month', 1),
-    date: makeComputed('date')
+    })
   },
   methods: {
     prev: makeMethod(-1),

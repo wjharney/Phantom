@@ -1,20 +1,10 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import {
-  getYear, setYear, getMonth, setMonth, getDate, setDate, addDays, min, format
+  addDays, format, min
 } from 'date-fns'
 import router from './router'
-
 Vue.use(Vuex)
-
-const makeGetter = fn => state => fn(state.displayDate)
-const makeMutation = fn => (state, val) => {
-  state.displayDate = min([state.today, fn(state.displayDate, val)])
-}
-const makeAction = mut => ({ commit, state }, val) => {
-  commit(mut, val)
-  router.push({ query: { d: format(state.displayDate, 'yyyy-MM-dd') } })
-}
 
 const getQueryDate = (query, prop) => {
   if (!query) return null
@@ -44,37 +34,31 @@ export default new Store({
   plugins: [setStorageDate(localStorage, 'lastSeen')],
   state () {
     const today = new Date()
-    const state = { today }
-    const DISPLAY = 'displayDate'
+    const state = { today, loading: false }
     const queryDate = getQueryDate(location.search, 'd')
-    if (queryDate) {
-      state[DISPLAY] = queryDate
+    const setDisplayDate = val => {
+      state.displayDate = val
       return state
+    }
+    if (queryDate) {
+      return setDisplayDate(queryDate)
     }
     const storedDate = getStorageDate(localStorage, 'lastSeen')
     if (storedDate) {
       // Display the date after the last seen one, unless it's today
-      state[DISPLAY] = min([today, addDays(storedDate, 1)])
-      return state
+      return setDisplayDate(min([today, addDays(storedDate, 1)]))
     }
-    state[DISPLAY] = today
-    return state
-  },
-  getters: {
-    year: makeGetter(getYear),
-    month: makeGetter(getMonth),
-    date: makeGetter(getDate)
+    return setDisplayDate(today)
   },
   mutations: {
-    year: makeMutation(setYear),
-    month: makeMutation(setMonth),
-    date: makeMutation(setDate),
-    increment: makeMutation(addDays)
+    changeDate (state, date) {
+      state.displayDate = date
+    }
   },
   actions: {
-    year: makeAction('year'),
-    month: makeAction('month'),
-    date: makeAction('date'),
-    increment: makeAction('increment')
+    updateDisplay ({ commit }, date) {
+      commit('changeDate', date)
+      router.push({ query: { d: format(date, 'yyyy-MM-dd') } })
+    }
   }
 })
