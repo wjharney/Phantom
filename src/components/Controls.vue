@@ -15,12 +15,12 @@
 <script>
 import {
   getYear, getMonth, getDate, setYear, setMonth, setDate, isSameDay, isBefore,
-  addDays, differenceInWeeks
+  addDays, differenceInWeeks, min
 } from 'date-fns'
 import { mapState } from 'vuex'
 const UPDATE = 'updateDisplay'
 const makeMethod = val => function () {
-  const { today, displayDate } = this.$store.state
+  const { displayDate, today } = this.$store.state
   const changed = addDays(displayDate, val)
   if (isBefore(changed, today)) {
     this.$store.dispatch(UPDATE, changed)
@@ -31,11 +31,10 @@ const makeComputed = (getter, setter, displayOffset = 0) => ({
     return getter(this.$store.state.displayDate) + displayOffset
   },
   set (val, ...args) {
-    const { displayDate } = this.$store.state
+    const { displayDate, today } = this.$store.state
     const changed = setter(displayDate, val - displayOffset)
-    if (!isSameDay(changed, displayDate)) {
-      this.$store.dispatch(UPDATE, changed)
-    }
+    const chosen = min([changed, today])
+    this.$store.dispatch(UPDATE, chosen)
   }
 })
 export default {

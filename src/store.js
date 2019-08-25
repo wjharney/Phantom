@@ -37,7 +37,7 @@ export default new Store({
     const state = { today, loading: false }
     const queryDate = getQueryDate(location.search, 'd')
     const setDisplayDate = val => {
-      state.displayDate = val
+      state.displayDate = min([today, val])
       return state
     }
     if (queryDate) {
@@ -46,7 +46,7 @@ export default new Store({
     const storedDate = getStorageDate(localStorage, 'lastSeen')
     if (storedDate) {
       // Display the date after the last seen one, unless it's today
-      return setDisplayDate(min([today, addDays(storedDate, 1)]))
+      return setDisplayDate(addDays(storedDate, 1))
     }
     return setDisplayDate(today)
   },
