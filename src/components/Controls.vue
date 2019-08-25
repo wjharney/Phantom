@@ -39,6 +39,12 @@ const makeComputed = (getter, setter, displayOffset = 0) => ({
 })
 export default {
   name: 'PhantomControls',
+  created () {
+    window.addEventListener('keyup', this.onKeyUp)
+  },
+  destroyed () {
+    window.removeEventListener('keyup', this.onKeyUp)
+  },
   computed: {
     year: makeComputed(getYear, setYear),
     month: makeComputed(getMonth, setMonth, 1),
@@ -53,7 +59,13 @@ export default {
     prev: makeMethod(-1),
     next: makeMethod(1),
     prevWeek: makeMethod(-7),
-    nextWeek: makeMethod(7)
+    nextWeek: makeMethod(7),
+    onKeyUp (evt) {
+      switch (evt.key) {
+        case 'ArrowLeft': return this.prev()
+        case 'ArrowRight': return this.next()
+      }
+    }
   }
 }
 </script>
