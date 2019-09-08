@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import {
-  addDays, format, min
+  addDays, format, isSameDay, min
 } from 'date-fns'
 import router from './router'
 Vue.use(Vuex)
@@ -56,9 +56,13 @@ export default new Store({
     }
   },
   actions: {
-    updateDisplay ({ commit }, date) {
+    updateDisplay ({ commit, state }, date) {
       commit('changeDate', date)
-      router.push({ query: { d: format(date, 'yyyy-MM-dd') } })
+      if (isSameDay(date, state.today)) {
+        router.push({ query: {} })
+      } else {
+        router.push({ query: { d: format(date, 'yyyy-MM-dd') } })
+      }
     }
   }
 })
