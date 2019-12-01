@@ -19,11 +19,15 @@ export default {
 
 <style>
   html, body, main {
-    height: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-flow: column nowrap;
   }
   main {
+    box-sizing: border-box;
+    padding: 10px;
     background: beige;
   }
 </style>
