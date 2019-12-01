@@ -1,14 +1,14 @@
 <template>
   <h1>
-    <span class="button" @click="prevWeek">«</span>
-    <span class="button" @click="prev">&lt;</span>
+    <span class="small button" @click="prevWeek">&#9668;</span>
+    <span class="button" @click="prev">&#9668;</span>
     <input class="wide" type="number" v-model="year" :max="maxYear" step="1">
-    <span>–</span>
+    <span class="sep">–</span>
     <input type="number" v-model="month" min="0" max="13" step="1">
-    <span>–</span>
+    <span class="sep">–</span>
     <input type="number" v-model="date" min="0" max="32" step="1">
-    <span class="button" @click="next" :disabled="isToday">&gt;</span>
-    <span class="button" @click="nextWeek" :disabled="isThisWeek">»</span>
+    <span class="button" :class="{disabled: isToday}" @click="next">&#9658;</span>
+    <span class="small button" :class="{disabled: isThisWeek}" @click="nextWeek">&#9658;</span>
   </h1>
 </template>
 
@@ -78,9 +78,10 @@ h1 {
   border-bottom: 2px ridge gray;
   display: flex;
   justify-content: center;
+  margin-top: 0;
 }
 
-span {
+.sep {
   font-size: 1.5em;
   margin: 0 0.5ex;
 }
@@ -101,7 +102,22 @@ input {
   display: none;
 }
 
+.button {
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+.button.disabled {
+  cursor: default;
+}
+.button.disabled, .button.disabled:hover {
+  color: #bbb;
+}
 .button:hover, input:focus {
-  color: #777;
+  color: #888;
+}
+
+.small {
+  font-size: 0.7em;
 }
 </style>
