@@ -19,8 +19,8 @@ export default {
       const MM = format(date, 'MM')
       const dd = format(date, 'dd')
       const frag = isSunday(date) ? '_hs' : ''
-      const file = `http://safr.kingfeatures.com/ThePhantom/${yyyy}/${MM}/Phantom${frag}.${yyyy}${MM}${dd}_1440.gif`
-      return `https://safr.kingfeatures.com/idn/ck3/content.php?file=${btoa(file)}`
+      const file = `ThePhantom/${yyyy}/${MM}/Phantom${frag}.${yyyy}${MM}${dd}_1536.gif`
+      return `https://safr.kingfeatures.com/api/img.php?s=c&file=${btoa(file)}`
     }
   },
   watch: {
