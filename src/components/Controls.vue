@@ -72,7 +72,6 @@ export default {
 
 <style scoped>
 h1 {
-  -moz-user-select: none;
   user-select: none;
   align-items: center;
   border-bottom: 2px ridge gray;
