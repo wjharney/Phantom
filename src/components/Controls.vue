@@ -75,9 +75,10 @@ h1 {
   user-select: none;
   align-items: center;
   border-bottom: 2px ridge gray;
+  margin-top: 0;
+  padding-bottom: 10px;
   display: flex;
   justify-content: center;
-  margin-top: 0;
 }
 
 .sep {
@@ -90,7 +91,7 @@ input {
   font-size: 2em;
   text-align: center;
   width: 1.5em;
-  background: #f5f5f5;
+  background-color: inherit;
 }
 
 .wide {
