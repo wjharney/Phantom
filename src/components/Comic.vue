@@ -48,15 +48,11 @@ export default {
 </script>
 
 <style scoped>
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
   img {
-    /* flex: 1 1 auto; */
-    max-height: 100%;
+    display: block;
+    margin: 0 auto 10px;
+    /* 132px is hard-coded height of controls + comic padding */
+    max-height: calc(100vh - 132px);
     max-width: 100%;
-    opacity: 0.1;
   }
 </style>
