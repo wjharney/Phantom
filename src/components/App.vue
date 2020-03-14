@@ -28,6 +28,6 @@ export default {
   main {
     box-sizing: border-box;
     padding: 10px;
-    background: beige;
+    background: #eee;
   }
 </style>
