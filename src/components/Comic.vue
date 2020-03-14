@@ -1,11 +1,25 @@
 <template>
-  <!-- <div> -->
+  <div>
     <img :src="src">
-  <!-- </div> -->
+    <!-- Preload prev/next images for smoother experience -->
+    <link rel="preload" as="image" :href="prev" crossorigin="anonymous">
+    <link rel="preload" as="image" :href="next" crossorigin="anonymous">
+  </div>
 </template>
 
 <script>
-import { format, isSunday } from 'date-fns'
+import { addDays, format, isSunday } from 'date-fns'
+function computedComicUrl (offsetDays) {
+  return function comicUrl () {
+    const date = addDays(this.$store.state.displayDate, offsetDays)
+    const yyyy = format(date, 'yyyy')
+    const MM = format(date, 'MM')
+    const dd = format(date, 'dd')
+    const frag = isSunday(date) ? '_hs' : ''
+    const file = `ThePhantom/${yyyy}/${MM}/Phantom${frag}.${yyyy}${MM}${dd}_1536.gif`
+    return `https://safr.kingfeatures.com/api/img.php?s=c&file=${btoa(file)}`
+  }
+}
 const SPINNER = '/spinner.gif'
 export default {
   name: 'PhantomComic',
@@ -13,15 +27,9 @@ export default {
     src: SPINNER
   }),
   computed: {
-    url () {
-      const date = this.$store.state.displayDate
-      const yyyy = format(date, 'yyyy')
-      const MM = format(date, 'MM')
-      const dd = format(date, 'dd')
-      const frag = isSunday(date) ? '_hs' : ''
-      const file = `ThePhantom/${yyyy}/${MM}/Phantom${frag}.${yyyy}${MM}${dd}_1536.gif`
-      return `https://safr.kingfeatures.com/api/img.php?s=c&file=${btoa(file)}`
-    }
+    prev: computedComicUrl(-1),
+    url: computedComicUrl(0),
+    next: computedComicUrl(1)
   },
   watch: {
     url: {
@@ -29,10 +37,10 @@ export default {
       handler (val) {
         this.src = SPINNER
         const img = new Image()
+        img.src = val
         img.addEventListener('load', () => {
           this.src = val
         }, { once: true })
-        img.src = val
       }
     }
   }
