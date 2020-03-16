@@ -9,7 +9,7 @@ export default new Router({
   routes: [{ path: '/', component: App }],
   parseQuery (str = '') {
     const parsed = Object.fromEntries(new URLSearchParams(str))
-    if (parsed.hasOwnProperty('d') && isNaN(new Date(parsed.d))) {
+    if ('d' in parsed && isNaN(new Date(parsed.d))) {
       delete parsed.d
     }
     return parsed
