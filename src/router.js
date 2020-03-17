@@ -5,7 +5,6 @@ import App from './components/App.vue'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
   routes: [{ path: '/', component: App }],
   parseQuery (str = '') {
     const parsed = Object.fromEntries(new URLSearchParams(str))
