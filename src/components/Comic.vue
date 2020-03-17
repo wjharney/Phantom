@@ -21,7 +21,7 @@ function computedComicUrl (offsetDays) {
     return `https://safr.kingfeatures.com/api/img.php?s=c&file=${btoa(file)}`
   }
 }
-const SPINNER = '/spinner.gif'
+const SPINNER = 'spinner.gif'
 export default {
   name: 'PhantomComic',
   data: () => ({
